@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html" class="active">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="page-header"><h1>Our Blogs</h1><p>What we think about interior design?</p></div>
+
+<div class="container" style="padding-bottom:70px;">
+  <div class="blog-grid" id="blogGridFull"></div>
+</div>
+
+<!-- ===================== NEWSLETTER ===================== -->
+<div class="newsletter">
+  <img src="images/img4.png" alt="Sofa">
+  <div class="content">
+    <h3>Get in touch</h3>
+    <p>We'd love to hear from you: connect with us for a seamless shopping experience and personalized assistance.</p>
+    <form onsubmit="event.preventDefault(); showToast('Thanks for subscribing!'); this.reset();">
+      <input type="email" placeholder="Your E-mail" required>
+      <button type="submit">Subcribes</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><h4>Customer Service</h4><a href="#">Help & FAQs</a><a href="#">Return & Refund</a><a href="#">Shipping Policy</a><a href="#">Customs and Taxes</a><a href="#">Customer's Reviews</a></div>
+      <div><h4>Company</h4><a href="#">About Japan with love</a><a href="#">Contact Us</a><a href="#">Special Deals & Offers</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      <div><h4>Help Center</h4><a href="#">Order Information</a><a href="#">Shipping Options</a><a href="#">International Shipping</a><a href="#">Payment Options</a></div>
+      <div><h4>Return & Warranty</h4><a href="#">Returns & Exchange Policy</a><a href="#">Returns Center</a><a href="#">Warranty Policy</a><a href="#">Warranty Registration</a><a href="#">Warranty Repair Center</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Copyright 2020,All rights reserved</span>
+      <div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="blog-data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script>
+document.getElementById("blogGridFull").innerHTML = BLOG_POSTS.map(blogCardHTML).join("");
+document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = document.getElementById("headerSearchInput").value.trim();
+  window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+});
+</script>
+</body>
+</html>

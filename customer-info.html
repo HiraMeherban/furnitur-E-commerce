@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Information — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="page-header"><h1>Customer Information</h1><p>Provide your received information to complete the process</p></div>
+
+<div class="container">
+  <div class="steps">
+    <div class="step done"><div class="circle">🛍</div><h5>Cart</h5><p>Review all your product and edit the number.</p></div>
+    <div class="step current"><div class="circle">👤</div><h5>Customer Information</h5><p>Add your name, phone number and address.</p></div>
+    <div class="step"><div class="circle">💳</div><h5>Shipping & Payment</h5><p>With many payment method, included yours.</p></div>
+    <div class="step"><div class="circle">👁</div><h5>Review</h5><p>View all your information before confirmation.</p></div>
+  </div>
+</div>
+
+<div class="container checkout-layout">
+  <div>
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Your Information</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:26px;">Add your name, phone number and address.</p>
+    <form class="form-grid" id="customerForm">
+      <div class="form-field"><label>First Name</label><input type="text" required placeholder="Your first name"></div>
+      <div class="form-field"><label>Last Name</label><input type="text" required placeholder="Your last name"></div>
+      <div class="form-field"><label>Email</label><input type="email" required placeholder="Your email"></div>
+      <div class="form-field"><label>Phone Number</label><input type="tel" required placeholder="Phone number"></div>
+      <div class="form-field"><label>County</label><input type="text" placeholder="County"></div>
+      <div class="form-field"><label>City</label><input type="text" required placeholder="City"></div>
+      <div class="form-field full"><label>ZIP Code</label><input type="text" required placeholder="ZIP Code"></div>
+      <div class="form-field full"><label>Address details</label><input type="text" required placeholder="Address details"></div>
+    </form>
+  </div>
+
+  <div class="order-box">
+    <h3>Your Order</h3>
+    <p class="hint">Review all the products you want to buy</p>
+    <div id="orderLines"></div>
+    <div class="order-line"><span>Subtotal</span><span id="orderSubtotal">$0.00</span></div>
+    <div class="order-line"><span>Discount 10%</span><span id="orderDiscount">-$0.00</span></div>
+    <div class="order-line total"><span>Total Price</span><span id="orderTotal">$0.00</span></div>
+    <a href="shipping-payment.html" class="btn full" id="continueBtn" style="margin-top:16px;">Continue to Shipping</a>
+  </div>
+</div>
+
+<footer><div class="container"><div class="footer-bottom" style="border:none;"><span>© Copyright 2020,All rights reserved</span><div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div></div></div></footer>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script src="checkout-common.js"></script>
+<script>
+document.getElementById("customerForm").addEventListener("submit", (e) => e.preventDefault());
+document.getElementById("continueBtn").addEventListener("click", (e) => {
+  if (!Cart.count()) { e.preventDefault(); showToast("Your cart is empty"); }
+});
+document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = document.getElementById("headerSearchInput").value.trim();
+  window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+});
+</script>
+</body>
+</html>

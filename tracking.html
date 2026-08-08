@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Tracking — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="page-header"><h1>Order Tracking</h1><p>Your order has been placed successfully — review your status below</p></div>
+
+<div class="container checkout-layout">
+  <div>
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Shipping In</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:30px;">Will be sent to 2972 Westheimer Rd. Santa Ana, Illinois 85486.</p>
+    <div id="trackingSteps"></div>
+    <div style="margin-top:40px;">
+      <h4 style="font-size:14px;font-weight:700;margin-bottom:6px;">Have you been having trouble with your package?</h4>
+      <p style="font-size:13px;color:#6f6f6c;margin-bottom:14px;">You can call us. We can help solve your problem.</p>
+      <a href="#" class="btn outline">Support Me</a>
+    </div>
+  </div>
+
+  <div class="order-box">
+    <h3>Your Order</h3>
+    <p class="hint">Review all the products you bought</p>
+    <div id="orderLines"></div>
+    <div class="order-line"><span>Subtotal</span><span id="orderSubtotal">$0.00</span></div>
+    <div class="order-line"><span>Discount 10%</span><span id="orderDiscount">-$0.00</span></div>
+    <div class="order-line total"><span>Total Price</span><span id="orderTotal">$0.00</span></div>
+    <a href="shop.html" class="btn full" style="margin-top:16px;">Continue Shopping</a>
+  </div>
+</div>
+
+<footer><div class="container"><div class="footer-bottom" style="border:none;">
+  <span>© Copyright 2020,All rights reserved</span><div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div></div></div></footer>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script>
+const stepsData = [
+  { title: "Order confirmed by Seller & Furnitur system", done: true },
+  { title: "Package received at DHL facility", done: true },
+  { title: "Package sent from DHL facility", done: true },
+  { title: "Package arrived at your local hub", done: true },
+  { title: "Package will be sent to your home by our courier", done: false }
+];
+
+document.getElementById("trackingSteps").innerHTML = stepsData
+  .map(
+    (s) => `
+  <div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--gray-100);">
+    <div style="width:12px;height:12px;border-radius:50%;background:${s.done ? "#1c1c1a" : "#e9e9e6"};margin-top:5px;flex-shrink:0;"></div>
+    <div><b style="font-size:14px;">${s.title}</b><div style="font-size:12px;color:#6f6f6c;margin-top:4px;">${new Date().toLocaleDateString()}</div></div>
+  </div>`
+  )
+  .join("");
+
+// Load the snapshot saved right before checkout confirmation
+const order = JSON.parse(localStorage.getItem("furnitur_last_order") || "null");
+const wrap = document.getElementById("orderLines");
+if (order && order.items.length) {
+  wrap.innerHTML = order.items
+    .map(
+      (item) => `
+    <div class="cart-line" style="grid-template-columns:80px 1fr;">
+      <img src="${item.image}" alt="${item.name}" style="width:80px;height:80px;">
+      <div>
+        <h4>${item.name}</h4>
+        <div style="font-size:12px;color:#6f6f6c;margin:4px 0;">${item.qty} item${item.qty > 1 ? "s" : ""}</div>
+        <b>${formatPrice(item.lineTotal)}</b>
+      </div>
+    </div>`
+    )
+    .join("");
+  document.getElementById("orderSubtotal").textContent = formatPrice(order.subtotal);
+  document.getElementById("orderDiscount").textContent = "-" + formatPrice(order.discount);
+  document.getElementById("orderTotal").textContent = formatPrice(order.total);
+} else {
+  wrap.innerHTML = `<p style="color:#6f6f6c;">No recent order found.</p>`;
+}
+
+document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = document.getElementById("headerSearchInput").value.trim();
+  window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+});
+</script>
+</body>
+</html>

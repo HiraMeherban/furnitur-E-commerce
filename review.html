@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review and Confirmation — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="page-header"><h1>Review and Confirmation</h1><p>Look back one more time to confirm your address and all your products</p></div>
+
+<div class="container">
+  <div class="steps">
+    <div class="step done"><div class="circle">🛍</div><h5>Cart</h5><p>Review all your product and edit the number.</p></div>
+    <div class="step done"><div class="circle">👤</div><h5>Customer Information</h5><p>Add your name, phone number and address.</p></div>
+    <div class="step done"><div class="circle">💳</div><h5>Shipping & Payment</h5><p>With many payment method, included yours.</p></div>
+    <div class="step current"><div class="circle">👁</div><h5>Review</h5><p>View all your information before confirmation.</p></div>
+  </div>
+</div>
+
+<div class="container checkout-layout">
+  <div>
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Shipping Information</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:20px;">Please check before you finalize your order</p>
+    <div style="background:var(--black);color:#fff;padding:24px;border-radius:2px;margin-bottom:30px;">
+      <b>Jane Cooper</b>
+      <p style="opacity:.75;font-size:13px;margin:8px 0;">(480) 555-0103</p>
+      <p style="opacity:.75;font-size:13px;margin-bottom:16px;">2972 Westheimer Rd. Santa Ana, Illinois 85486</p>
+      <hr style="border-color:rgba(255,255,255,.15);margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;"><b>FedEx</b><span>Free shipping</span></div>
+      <small style="opacity:.6;">Estimated delivery time: Jul 20 - Aug 03</small>
+    </div>
+
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Payment Method</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:20px;">Please check before you finalize your order</p>
+    <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--gray-200);padding:18px 20px;border-radius:2px;">
+      <span style="font-size:22px;">💳</span>
+      <div><b>Credit Card</b><div style="font-size:12px;color:#6f6f6c;">**** 7282 · Expires 08/2026</div></div>
+    </div>
+  </div>
+
+  <div class="order-box">
+    <h3>Your Order</h3>
+    <p class="hint">Review all the products you want to buy</p>
+    <div id="orderLines"></div>
+    <div class="order-line"><span>Subtotal</span><span id="orderSubtotal">$0.00</span></div>
+    <div class="order-line"><span>Discount 10%</span><span id="orderDiscount">-$0.00</span></div>
+    <div class="order-line total"><span>Total Price</span><span id="orderTotal">$0.00</span></div>
+    <button class="btn full" id="confirmBtn" style="margin-top:16px;">Confirm My Order</button>
+  </div>
+</div>
+
+<footer><div class="container"><div class="footer-bottom" style="border:none;">
+  <span>© Copyright 2020,All rights reserved</span><div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div></div></div></footer>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script src="checkout-common.js"></script>
+<script>
+document.getElementById("confirmBtn").addEventListener("click", () => {
+  if (!Cart.count()) { showToast("Your cart is empty"); return; }
+  // snapshot the order so the tracking page can still show it after the cart is cleared
+  localStorage.setItem("furnitur_last_order", JSON.stringify({
+    items: Cart.detailed(),
+    subtotal: Cart.subtotal(),
+    discount: Cart.subtotal() * 0.1,
+    total: Cart.subtotal() * 0.9
+  }));
+  Cart.clear();
+  window.location.href = "tracking.html";
+});
+document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = document.getElementById("headerSearchInput").value.trim();
+  window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+});
+</script>
+</body>
+</html>

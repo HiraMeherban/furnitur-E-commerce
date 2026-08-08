@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipping & Payment — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="page-header"><h1>Shipping & Payment</h1><p>Choose the payment and shipping method you want</p></div>
+
+<div class="container">
+  <div class="steps">
+    <div class="step done"><div class="circle">🛍</div><h5>Cart</h5><p>Review all your product and edit the number.</p></div>
+    <div class="step done"><div class="circle">👤</div><h5>Customer Information</h5><p>Add your name, phone number and address.</p></div>
+    <div class="step current"><div class="circle">💳</div><h5>Shipping & Payment</h5><p>With many payment method, included yours.</p></div>
+    <div class="step"><div class="circle">👁</div><h5>Review</h5><p>View all your information before confirmation.</p></div>
+  </div>
+</div>
+
+<div class="container checkout-layout">
+  <div>
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Shipping Service</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:20px;">Choose one best shipping service across your needs.</p>
+    <div id="shippingOptions"></div>
+
+    <h2 style="font-size:22px;font-weight:800;text-transform:uppercase;margin:40px 0 6px;">Payment Method</h2>
+    <p style="color:#6f6f6c;font-size:13px;margin-bottom:20px;">Choose what service you want for your transaction.</p>
+    <div id="paymentOptions" style="display:flex;gap:14px;flex-wrap:wrap;"></div>
+
+    <div class="form-grid" style="margin-top:26px;">
+      <div class="form-field"><label>Name on card</label><input type="text" placeholder="Jennie"></div>
+      <div class="form-field"><label>Card number</label><input type="text" placeholder="Card number"></div>
+      <div class="form-field"><label>Month</label><input type="text" placeholder="MM"></div>
+      <div class="form-field"><label>Year</label><input type="text" placeholder="YYYY"></div>
+      <div class="form-field"><label>CVV</label><input type="text" placeholder="CVV"></div>
+    </div>
+  </div>
+
+  <div class="order-box">
+    <h3>Your Order</h3>
+    <p class="hint">Review all the products you want to buy</p>
+    <div id="orderLines"></div>
+    <div class="order-line"><span>Subtotal</span><span id="orderSubtotal">$0.00</span></div>
+    <div class="order-line"><span>Discount 10%</span><span id="orderDiscount">-$0.00</span></div>
+    <div class="order-line total"><span>Total Price</span><span id="orderTotal">$0.00</span></div>
+    <a href="review.html" class="btn full" id="reviewBtn" style="margin-top:16px;">Review Your Order</a>
+  </div>
+</div>
+
+<footer><div class="container"><div class="footer-bottom" style="border:none;">
+  <span>© Copyright 2020,All rights reserved</span><div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div></div></div></footer>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script src="checkout-common.js"></script>
+<script>
+const shippingMethods = [
+  { name: "DHL Express", price: 0, eta: "Jul 20 - Aug 03" },
+  { name: "FedEx", price: 25, eta: "Jul 20 - Aug 03" },
+  { name: "Express Expedition", price: 35, eta: "Jul 20 - Aug 03" },
+  { name: "JNE Express", price: 35, eta: "Jul 20 - Aug 03" },
+];
+const paymentMethods = [
+  { name: "Credit Card", icon: "💳" },
+  { name: "Paypal", icon: "🅿" }
+];
+
+function renderShipping(selected = 0) {
+  document.getElementById("shippingOptions").innerHTML = shippingMethods
+    .map(
+      (m, i) => `
+    <div class="ship-option ${i === selected ? "selected" : ""}" data-ship="${i}">
+      <div><b>${m.name}</b><small>Estimated delivery time: ${m.eta}</small></div>
+      <div>${m.price === 0 ? "Free shipping" : "$" + m.price.toFixed(2)}</div>
+    </div>`
+    )
+    .join("");
+  document.querySelectorAll("[data-ship]").forEach((el) => {
+    el.addEventListener("click", () => renderShipping(Number(el.dataset.ship)));
+  });
+}
+
+function renderPayment(selected = 0) {
+  document.getElementById("paymentOptions").innerHTML = paymentMethods
+    .map(
+      (m, i) => `
+    <div class="pay-option ${i === selected ? "selected" : ""}" data-pay="${i}" style="flex:1;min-width:220px;">
+      <div><b>${m.icon} ${m.name}</b></div>
+    </div>`
+    )
+    .join("");
+  document.querySelectorAll("[data-pay]").forEach((el) => {
+    el.addEventListener("click", () => renderPayment(Number(el.dataset.pay)));
+  });
+}
+
+renderShipping();
+renderPayment();
+
+document.getElementById("reviewBtn").addEventListener("click", (e) => {
+  if (!Cart.count()) { e.preventDefault(); showToast("Your cart is empty"); }
+});
+document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = document.getElementById("headerSearchInput").value.trim();
+  window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Blog — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo"><img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'"><span>FURNITUR<small>Your Future Interior</small></span></a>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="blog.html" class="active">Blog</a><a href="about.html">About Us</a></nav>
+  <form class="header-search" id="headerSearchForm"><button type="submit">🔍</button><input type="text" id="headerSearchInput" placeholder="Search something"></form>
+  <div class="header-actions"><a href="#love">♡ Love</a><a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a></div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="container breadcrumb" id="breadcrumb">Home / <a href="blog.html">Blog</a> / <b>Post</b></div>
+
+<div class="container" style="padding-bottom:20px;">
+  <div class="blog-post-hero"><img id="postImg" src="" alt=""></div>
+  <div class="blog-post-body" id="postBody"></div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">More From The Blog</h2>
+    <p class="section-sub">What we think about interior design?</p>
+    <div class="blog-grid" id="relatedBlog"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border:none;">
+      <span>© Copyright 2020,All rights reserved</span>
+      <div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="blog-data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script>
+function loadPost() {
+  const id = Number(getQueryParam("id")) || BLOG_POSTS[0].id;
+  const post = BLOG_POSTS.find((p) => p.id === id) || BLOG_POSTS[0];
+
+  document.getElementById("pageTitle").textContent = post.title + " — Furnitur";
+  document.getElementById("breadcrumb").innerHTML = `<a href="index.html">Home</a> / <a href="blog.html">Blog</a> / <b>${post.title}</b>`;
+  document.getElementById("postImg").src = post.image;
+  document.getElementById("postImg").alt = post.title;
+
+  document.getElementById("postBody").innerHTML = `
+    <h1>${post.title}</h1>
+    <div class="meta">${post.date} | ${post.time} &nbsp;•&nbsp; ${post.tags.join(", ")}</div>
+    ${post.body.split("\n\n").map((para) => `<p>${para}</p>`).join("")}
+    <div class="blog-tags">${post.tags.map((t) => `<span>${t}</span>`).join("")}</div>
+  `;
+
+  const related = BLOG_POSTS.filter((p) => p.id !== post.id).slice(0, 3);
+  document.getElementById("relatedBlog").innerHTML = related.map(blogCardHTML).join("");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPost();
+  document.getElementById("headerSearchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = document.getElementById("headerSearchInput").value.trim();
+    window.location.href = "shop.html" + (q ? `?q=${encodeURIComponent(q)}` : "");
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Product — Furnitur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header container">
+  <a href="index.html" class="logo">
+    <img src="images/Logo.png" alt="Furnitur" onerror="this.style.display='none'">
+    <span>FURNITUR<small>Your Future Interior</small></span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About Us</a>
+  </nav>
+  <form class="header-search" id="headerSearchForm">
+    <button type="submit">🔍</button>
+    <input type="text" id="headerSearchInput" placeholder="Search something">
+  </form>
+  <div class="header-actions">
+    <a href="#love">♡ Love</a>
+    <a href="cart.html"><img class="icon-btn" src="images/cart.png" alt="" onerror="this.outerHTML='🛍'"> Cart <span class="cart-count">0</span></a>
+  </div>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="container breadcrumb" id="breadcrumb">Home / Shop / <b>Product</b></div>
+
+<section class="container pd-wrap" id="pdWrap">
+  <!-- filled by JS -->
+</section>
+
+<section class="container" style="padding-bottom:70px;">
+  <div class="pd-tabs">
+    <button class="active" data-tab="detail">Product Detail</button>
+    <button data-tab="delivery">Delivery and Return</button>
+  </div>
+  <div id="tabDetail" class="pd-detail-grid"></div>
+  <div id="tabDelivery" class="pd-detail-grid" style="display:none;">
+    <div>
+      <h4>Shipping</h4>
+      <p>We offer free standard shipping on all orders over a certain amount within the continental US. For orders below that amount, or for expedited shipping, additional fees may apply.</p>
+    </div>
+    <div>
+      <h4>Returns</h4>
+      <p>Items may be returned within 30 days of delivery in original condition. Custom or made-to-order pieces are final sale. See our full Returns & Exchange Policy for details.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <h2 class="section-title">Best Combined With:</h2>
+    <p class="section-sub">These combination will make your home tone-sur-tone</p>
+    <div class="product-grid" id="relatedGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><h4>Customer Service</h4><a href="#">Help & FAQs</a><a href="#">Return & Refund</a><a href="#">Shipping Policy</a><a href="#">Customs and Taxes</a><a href="#">Customer's Reviews</a></div>
+      <div><h4>Company</h4><a href="#">About Japan with love</a><a href="#">Contact Us</a><a href="#">Special Deals & Offers</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+      <div><h4>Help Center</h4><a href="#">Order Information</a><a href="#">Shipping Options</a><a href="#">International Shipping</a><a href="#">Payment Options</a></div>
+      <div><h4>Return & Warranty</h4><a href="#">Returns & Exchange Policy</a><a href="#">Returns Center</a><a href="#">Warranty Policy</a><a href="#">Warranty Registration</a><a href="#">Warranty Repair Center</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Copyright 2020,All rights reserved</span>
+      <div class="socials"><a href="#">f</a><a href="#">t</a><a href="#">ig</a><a href="#">p</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script src="common.js"></script>
+<script src="product.js"></script>
+</body>
+</html>
